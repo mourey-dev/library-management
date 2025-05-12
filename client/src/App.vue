@@ -1,47 +1,51 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+  <header class="bg-blue-700 shadow-md p-6">
+    <div class="flex items-center justify-between">
+      <h1 class="text-3xl font-bold text-white tracking-wide">
+        📚 Library Management System
+      </h1>
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+      <nav class="flex gap-6">
+        <RouterLink :class="navLinkClass('/')" to="/"> Books </RouterLink>
+        <RouterLink
+          :class="navLinkClass('/borrow-transaction')"
+          to="/borrow-transaction"
+        >
+          Borrow
+        </RouterLink>
+      </nav>
     </div>
   </header>
 
-  <main>
-    <TheWelcome />
+  <main class="bg-gray-50 min-h-screen p-6">
+    <RouterView />
   </main>
 </template>
 
+<script setup>
+import { useRoute } from "vue-router";
+const route = useRoute();
+
+const navLinkClass = (path) => [
+  "px-4 py-2 text-sm font-medium rounded-md transition-all duration-200",
+  route.path === path
+    ? "bg-white text-blue-700 font-semibold shadow-lg"
+    : "text-white hover:bg-blue-600 hover:text-blue-200 hover:shadow-md",
+];
+</script>
+
 <style scoped>
+/* Custom styling for main container */
 header {
-  line-height: 1.5;
+  border-bottom: 2px solid #e0e7ff;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+nav a {
+  transition: background-color 0.3s, color 0.3s;
 }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+nav a:hover {
+  background-color: #2563eb; /* Tailwind's blue-600 */
+  color: white;
 }
 </style>
